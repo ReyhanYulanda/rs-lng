@@ -27,5 +27,12 @@ class UserSeeder extends Seeder
             'role' => 'karyawan',
             'password' => Hash::make('12345678'),
         ]);
+
+        User::create([
+            'name' => 'tenaga medis',
+            'email' => 'tenagamedis@tenagamedis.com',
+            'role' => 'tenaga_medis',
+            'password' => Hash::make('12345678'),
+        ]);
     }
 }

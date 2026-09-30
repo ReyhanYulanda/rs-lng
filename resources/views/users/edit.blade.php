@@ -32,6 +32,7 @@
 							<label for="role" class="form-label">Role</label>
 							<select id="role" name="role" class="form-select" required>
 								<option value="karyawan" @selected(old('role', $user->role) === 'karyawan')>Karyawan</option>
+								<option value="tenaga_medis" @selected(old('role', $user->role) === 'tenaga_medis')>Tenaga Medis</option>
 								<option value="admin" @selected(old('role', $user->role) === 'admin')>Admin</option>
 							</select>
 						</div>

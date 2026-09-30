@@ -45,7 +45,7 @@
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->email }}</td>
                                 <td>
-                                    <span class="badge {{ $user->role === 'admin' ? 'text-bg-primary' : 'text-bg-secondary' }}">
+                                    <span class="badge {{ $user->role === 'admin' ? 'text-bg-primary' : ($user->role === 'karyawan' ? 'text-bg-secondary' : 'text-bg-success') }}">
                                         {{ ucfirst($user->role) }}
                                     </span>
                                 </td>
