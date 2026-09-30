@@ -10,10 +10,22 @@ class PasienController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $pasiens = Pasien::all();
-        return view('pasien.index', compact('pasiens'));
+        $search = trim($request->query('q', ''));
+
+        $pasiens = Pasien::query()
+            ->when($search !== '', function ($query) use ($search) {
+                $query->where(function ($query) use ($search) {
+                    $query->where('nama', 'like', "%{$search}%")
+                        ->orWhere('no_rekam_medis', 'like', "%{$search}%");
+                });
+            })
+            ->orderBy('nama')
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('pasien.index', compact('pasiens', 'search'));
     }
 
     /**
@@ -31,7 +43,7 @@ class PasienController extends Controller
     {
         $validated = $request->validate([
             'nama' => 'required|string|max:255',
-            'no_rekam_medis' => 'required|string|max:255',
+            'no_rekam_medis' => 'required|string|max:255|unique:pasiens,no_rekam_medis',
             'alamat' => 'required|string|max:255',
             'tanggal_lahir' => 'required|date',
         ]);
