@@ -33,6 +33,7 @@
                             <th>No</th>
                             <th>Nama</th>
                             <th>Email</th>
+                            <th>Role</th>
                             <th>Dibuat</th>
                             <th>Aksi</th>
                         </tr>
@@ -43,6 +44,11 @@
                                 <td>{{ $users->firstItem() + $loop->index }}</td>
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->email }}</td>
+                                <td>
+                                    <span class="badge {{ $user->role === 'admin' ? 'text-bg-primary' : 'text-bg-secondary' }}">
+                                        {{ ucfirst($user->role) }}
+                                    </span>
+                                </td>
                                 <td>{{ $user->created_at?->format('H:i d-m-Y') ?? '-' }}</td>
                                 <td class="text-nowrap">
                                     <a href="{{ route('users.edit', $user->id) }}" class="btn btn-sm btn-warning">Edit</a>
@@ -55,7 +61,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5" class="text-center text-muted py-4">Tidak ada user.</td>
+                                <td colspan="6" class="text-center text-muted py-4">Tidak ada user.</td>
                             </tr>
                         @endforelse
                     </tbody>

@@ -45,6 +45,7 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
+            'role' => 'required|in:admin,karyawan',
         ]);
 
         User::create($validated);
@@ -79,6 +80,7 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $id,
             'password' => 'nullable|string|min:8|confirmed',
+            'role' => 'required|in:admin,karyawan',
         ]);
 
         if (blank($validated['password'] ?? null)) {

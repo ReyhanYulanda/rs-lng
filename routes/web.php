@@ -22,13 +22,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
 
-Route::resource('pasien', PasienController::class);
-Route::resource('jenis-poli', JenisPoliController::class);
-Route::resource('dokter', DokterController::class);
-Route::resource('poli', PoliController::class);
-Route::resource('biaya', BiayaController::class);
-Route::resource('users', UserController::class);
+    Route::resource('pasien', PasienController::class);
+    Route::resource('jenis-poli', JenisPoliController::class);
+    Route::resource('dokter', DokterController::class);
+    Route::resource('poli', PoliController::class);
+    Route::resource('biaya', BiayaController::class);
+    Route::resource('users', UserController::class)->middleware('role:admin');
+});
 
 require __DIR__.'/auth.php';

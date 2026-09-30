@@ -29,6 +29,13 @@
 							<input type="email" id="email" name="email" value="{{ old('email', $user->email) }}" class="form-control" maxlength="255" required>
 						</div>
 						<div class="mb-4">
+							<label for="role" class="form-label">Role</label>
+							<select id="role" name="role" class="form-select" required>
+								<option value="karyawan" @selected(old('role', $user->role) === 'karyawan')>Karyawan</option>
+								<option value="admin" @selected(old('role', $user->role) === 'admin')>Admin</option>
+							</select>
+						</div>
+						<div class="mb-4">
 							<label for="password" class="form-label">Password Baru <span class="text-muted">(opsional)</span></label>
 							<input type="password" id="password" name="password" class="form-control" minlength="8" autocomplete="new-password">
 							<div class="form-text">Kosongkan jika tidak ingin mengubah password.</div>

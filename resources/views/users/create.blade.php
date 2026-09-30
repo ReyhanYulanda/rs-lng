@@ -28,6 +28,13 @@
 							<input type="email" id="email" name="email" value="{{ old('email') }}" class="form-control" maxlength="255" required>
 						</div>
 						<div class="mb-4">
+							<label for="role" class="form-label">Role</label>
+							<select id="role" name="role" class="form-select" required>
+								<option value="karyawan" @selected(old('role', 'karyawan') === 'karyawan')>Karyawan</option>
+								<option value="admin" @selected(old('role') === 'admin')>Admin</option>
+							</select>
+						</div>
+						<div class="mb-4">
 							<label for="password" class="form-label">Password</label>
 							<input type="password" id="password" name="password" class="form-control" minlength="8" required autocomplete="new-password">
 						</div>
