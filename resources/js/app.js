@@ -6,14 +6,14 @@ window.Alpine = Alpine;
 
 Alpine.start();
 
-const poliPatientChart = document.getElementById('poli-patient-chart');
+const pendaftaranPatientChart = document.getElementById('pendaftaran-patient-chart');
 
-if (poliPatientChart) {
-	const labels = JSON.parse(poliPatientChart.dataset.labels);
-	const values = JSON.parse(poliPatientChart.dataset.values);
+if (pendaftaranPatientChart) {
+	const labels = JSON.parse(pendaftaranPatientChart.dataset.labels);
+	const values = JSON.parse(pendaftaranPatientChart.dataset.values);
 
 	import('chart.js/auto').then(({ default: Chart }) => {
-		new Chart(poliPatientChart, {
+		new Chart(pendaftaranPatientChart, {
 			type: 'bar',
 			data: {
 				labels,

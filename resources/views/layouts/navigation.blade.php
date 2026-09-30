@@ -21,8 +21,8 @@
                     <x-nav-link :href="route('dokter.index')" :active="request()->routeIs('dokter.index')">
                         {{ __('Dokter') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('poli.index')" :active="request()->routeIs('poli.index')">
-                        {{ __('Poli') }}
+                    <x-nav-link :href="route('pendaftaran.index')" :active="request()->routeIs('pendaftaran.*')">
+                        {{ __('Pendaftaran') }}
                     </x-nav-link>
                     <x-nav-link :href="route('biaya.index')" :active="request()->routeIs('biaya.index')">
                         {{ __('Biaya') }}

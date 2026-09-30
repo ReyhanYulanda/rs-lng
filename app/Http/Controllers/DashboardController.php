@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Poli;
+use App\Models\Pendaftaran;
 
 class DashboardController extends Controller
 {
@@ -11,7 +11,7 @@ class DashboardController extends Controller
         $chartDates = collect(range(6, 0))
             ->map(fn ($daysAgo) => now()->startOfDay()->subDays($daysAgo));
 
-        $patientsByDate = Poli::query()
+        $patientsByDate = Pendaftaran::query()
             ->where('created_at', '>=', $chartDates->first())
             ->selectRaw('DATE(created_at) as tanggal, COUNT(DISTINCT id_pasien) as jumlah_pasien')
             ->groupByRaw('DATE(created_at)')

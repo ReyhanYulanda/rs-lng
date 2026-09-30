@@ -5,7 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PasienController;
 use App\Http\Controllers\JenisPoliController;
 use App\Http\Controllers\DokterController;
-use App\Http\Controllers\PoliController;    
+use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\BiayaController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -26,7 +26,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('pasien', PasienController::class);
     Route::resource('jenis-poli', JenisPoliController::class);
     Route::resource('dokter', DokterController::class);
-    Route::resource('poli', PoliController::class);
+    Route::resource('pendaftaran', PendaftaranController::class);
     Route::resource('biaya', BiayaController::class);
     Route::resource('users', UserController::class)->middleware('role:admin');
 });

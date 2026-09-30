@@ -5,11 +5,11 @@ namespace Database\Seeders;
 use App\Models\Dokter;
 use App\Models\JenisPoli;
 use App\Models\Pasien;
-use App\Models\Poli;
+use App\Models\Pendaftaran;
 use Illuminate\Database\Seeder;
 use RuntimeException;
 
-class PoliSeeder extends Seeder
+class PendaftaranSeeder extends Seeder
 {
     public function run(): void
     {
@@ -18,7 +18,7 @@ class PoliSeeder extends Seeder
         $jenisPolis = JenisPoli::orderBy('id')->get();
 
         if ($pasiens->isEmpty() || $dokters->isEmpty() || $jenisPolis->isEmpty()) {
-            throw new RuntimeException('Seed pasien, dokter, dan jenis poli sebelum menjalankan PoliSeeder.');
+            throw new RuntimeException('Seed pasien, dokter, dan jenis poli sebelum menjalankan PendaftaranSeeder.');
         }
 
         $kunjungans = [
@@ -44,7 +44,7 @@ class PoliSeeder extends Seeder
             $dokter = $dokters[$kunjungan['dokter'] % $dokters->count()];
             $jenisPoli = $jenisPolis[$kunjungan['jenis'] % $jenisPolis->count()];
 
-            $poli = Poli::firstOrCreate(
+            $pendaftaran = Pendaftaran::firstOrCreate(
                 [
                     'id_pasien' => $pasien->id,
                     'id_dokter' => $dokter->id,
@@ -58,13 +58,13 @@ class PoliSeeder extends Seeder
                 ],
             );
 
-            if ($poli->wasRecentlyCreated) {
+            if ($pendaftaran->wasRecentlyCreated) {
                 $tanggalKunjungan = now()
                     ->startOfDay()
                     ->subDays($index % 7)
                     ->setTime(8 + ($index % 9), ($index * 7) % 60);
 
-                $poli->forceFill([
+                $pendaftaran->forceFill([
                     'created_at' => $tanggalKunjungan,
                     'updated_at' => $tanggalKunjungan,
                 ])->save();

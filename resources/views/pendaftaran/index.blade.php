@@ -2,12 +2,12 @@
     <x-slot name="header">
         <div class="d-flex justify-content-between align-items-center">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Daftar Poli') }}
+                {{ __('Daftar Pendaftaran') }}
             </h2>
 
             <div class="d-flex gap-2">
                 <a href="{{ route('jenis-poli.index') }}" class="btn btn-outline-primary">Jenis Poli</a>
-                <a href="{{ route('poli.create') }}" class="btn btn-primary">Tambah Poli</a>
+                <a href="{{ route('pendaftaran.create') }}" class="btn btn-primary">Tambah Pendaftaran</a>
             </div>
         </div>
     </x-slot>
@@ -19,16 +19,16 @@
                     <div class="alert alert-success">{{ session('success') }}</div>
                 @endif
 
-                <form method="GET" action="{{ route('poli.index') }}" class="row g-2 mb-3">
+                <form method="GET" action="{{ route('pendaftaran.index') }}" class="row g-2 mb-3">
                     <div class="col-sm-8 col-md-6 col-lg-4">
-                        <label for="q" class="visually-hidden">Cari data poli</label>
+                        <label for="q" class="visually-hidden">Cari pendaftaran</label>
                         <input type="search" name="q" id="q" class="form-control"
                                value="{{ $search }}" placeholder="Cari pasien, dokter, keluhan, atau jenis poli">
                     </div>
                     <div class="col-auto">
                         <button type="submit" class="btn btn-primary">Cari</button>
                         @if($search !== '')
-                            <a href="{{ route('poli.index') }}" class="btn btn-outline-secondary">Reset</a>
+                            <a href="{{ route('pendaftaran.index') }}" class="btn btn-outline-secondary">Reset</a>
                         @endif
                     </div>
                 </form>
@@ -50,21 +50,21 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($polis as $poli)
+                        @forelse($pendaftarans as $pendaftaran)
                             <tr>
-                                <td>{{ $polis->firstItem() + $loop->index }}</td>
-                                <td>{{ $poli->pasien->no_rekam_medis ?? 'ID ' . $poli->id_pasien }}</td>
-                                <td>{{ $poli->pasien->nama ?? 'ID ' . $poli->id_pasien }}</td>
-                                <td>{{ $poli->dokter->nama ?? 'ID ' . $poli->id_dokter }}</td>
-                                <td>{{ $poli->keluhan }}</td>
-                                <td>{{ $poli->jenisPoli->nama ?? $poli->jenis_poli }}</td>
-                                <td>{{ $poli->status }}</td>
-                                <td>{{ $poli->penyakit ?: '-' }}</td>
-                                <td>{{ $poli->catatan_medis ?: '-' }}</td>
-                                <td>{{ $poli->updated_at?->format('H:i d-m-Y') ?? '-' }}</td>
+                                <td>{{ $pendaftarans->firstItem() + $loop->index }}</td>
+                                <td>{{ $pendaftaran->pasien->no_rekam_medis ?? 'ID ' . $pendaftaran->id_pasien }}</td>
+                                <td>{{ $pendaftaran->pasien->nama ?? 'ID ' . $pendaftaran->id_pasien }}</td>
+                                <td>{{ $pendaftaran->dokter->nama ?? 'ID ' . $pendaftaran->id_dokter }}</td>
+                                <td>{{ $pendaftaran->keluhan }}</td>
+                                <td>{{ $pendaftaran->jenisPoli->nama ?? $pendaftaran->jenis_poli }}</td>
+                                <td>{{ $pendaftaran->status }}</td>
+                                <td>{{ $pendaftaran->penyakit ?: '-' }}</td>
+                                <td>{{ $pendaftaran->catatan_medis ?: '-' }}</td>
+                                <td>{{ $pendaftaran->updated_at?->format('H:i d-m-Y') ?? '-' }}</td>
                                 <td class="text-nowrap">
-                                    <a href="{{ route('poli.edit', $poli->id) }}" class="btn btn-sm btn-warning">Edit</a>
-                                    <form action="{{ route('poli.destroy', $poli->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Hapus data poli ini?')">
+                                    <a href="{{ route('pendaftaran.edit', $pendaftaran->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                                    <form action="{{ route('pendaftaran.destroy', $pendaftaran->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Hapus pendaftaran ini?')">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
@@ -73,12 +73,12 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="11" class="text-center text-muted py-4">Tidak ada data poli.</td>
+                                <td colspan="11" class="text-center text-muted py-4">Tidak ada data pendaftaran.</td>
                             </tr>
                         @endforelse
                     </tbody>
                 </table>
-                {{ $polis->links('pagination::bootstrap-5') }}
+                {{ $pendaftarans->links('pagination::bootstrap-5') }}
             </div>
         </div>
     </div>

@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Poli;
+use App\Models\Dokter;
+use App\Models\JenisPoli;
+use App\Models\Pasien;
+use App\Models\Pendaftaran;
 use Illuminate\Http\Request;
 
-class PoliController extends Controller
+class PendaftaranController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
     {
         $search = trim($request->query('q', ''));
 
-        $polis = Poli::with(['pasien', 'dokter', 'jenisPoli'])
+        $pendaftarans = Pendaftaran::with(['pasien', 'dokter', 'jenisPoli'])
             ->when($search !== '', function ($query) use ($search) {
                 $like = "%{$search}%";
 
@@ -41,24 +41,18 @@ class PoliController extends Controller
             ->paginate(10)
             ->withQueryString();
 
-        return view('poli.index', compact('polis', 'search'));
+        return view('pendaftaran.index', compact('pendaftarans', 'search'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        $pasiens = \App\Models\Pasien::all();
-        $dokters = \App\Models\Dokter::all();
-        $jenisPolis = \App\Models\JenisPoli::all();
+        $pasiens = Pasien::all();
+        $dokters = Dokter::all();
+        $jenisPolis = JenisPoli::all();
 
-        return view('poli.create', compact('pasiens', 'dokters', 'jenisPolis'));
+        return view('pendaftaran.create', compact('pasiens', 'dokters', 'jenisPolis'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -71,35 +65,26 @@ class PoliController extends Controller
             'catatan_medis' => 'nullable|string|max:255',
         ]);
 
-        Poli::create($validated);
+        Pendaftaran::create($validated);
 
-        return redirect()->route('poli.index')->with('success', 'Poli berhasil ditambahkan.');
+        return redirect()->route('pendaftaran.index')->with('success', 'Pendaftaran berhasil ditambahkan.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Poli $poli)
+    public function show(Pendaftaran $pendaftaran)
     {
-        //
+        return view('pendaftaran.show', compact('pendaftaran'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Poli $poli)
+    public function edit(Pendaftaran $pendaftaran)
     {
-        $pasiens = \App\Models\Pasien::all();
-        $dokters = \App\Models\Dokter::all();
-        $jenisPolis = \App\Models\JenisPoli::all();
+        $pasiens = Pasien::all();
+        $dokters = Dokter::all();
+        $jenisPolis = JenisPoli::all();
 
-        return view('poli.edit', compact('poli', 'pasiens', 'dokters', 'jenisPolis'));
+        return view('pendaftaran.edit', compact('pendaftaran', 'pasiens', 'dokters', 'jenisPolis'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Poli $poli)
+    public function update(Request $request, Pendaftaran $pendaftaran)
     {
         $validated = $request->validate([
             'id_pasien' => 'required|exists:pasiens,id',
@@ -111,17 +96,15 @@ class PoliController extends Controller
             'catatan_medis' => 'nullable|string|max:255',
         ]);
 
-        $poli->update($validated);
+        $pendaftaran->update($validated);
 
-        return redirect()->route('poli.index')->with('success', 'Poli berhasil diperbarui.');
+        return redirect()->route('pendaftaran.index')->with('success', 'Pendaftaran berhasil diperbarui.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Poli $poli)
+    public function destroy(Pendaftaran $pendaftaran)
     {
-        $poli->delete();
-        return redirect()->route('poli.index')->with('success', 'Poli berhasil dihapus.');
+        $pendaftaran->delete();
+
+        return redirect()->route('pendaftaran.index')->with('success', 'Pendaftaran berhasil dihapus.');
     }
 }
