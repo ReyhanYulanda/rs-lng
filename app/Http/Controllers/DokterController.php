@@ -10,10 +10,22 @@ class DokterController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $dokters = Dokter::all();
-        return view('dokter.index', compact('dokters'));
+        $search = trim($request->query('q', ''));
+
+        $dokters = Dokter::query()
+            ->when($search !== '', function ($query) use ($search) {
+                $query->where(function ($query) use ($search) {
+                    $query->where('nama', 'like', "%{$search}%")
+                        ->orWhere('nip', 'like', "%{$search}%");
+                });
+            })
+            ->orderBy('nama')
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('dokter.index', compact('dokters', 'search'));
     }
 
     /**
