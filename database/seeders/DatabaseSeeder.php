@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
             DokterSeeder::class,
             JenisPoliSeeder::class,
             PasienSeeder::class,
+            PoliSeeder::class,
+            BiayaSeeder::class,
         ]);
     }
 }
