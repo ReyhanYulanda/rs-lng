@@ -32,7 +32,23 @@ class BiayaController extends Controller
      */
     public function store(Request $request)
     {
-        $biaya = Biaya::create($request->all());
+        $validated = $request->validate([
+            'id_pasien' => ['required', 'exists:pasiens,id'],
+            'biaya_dokter' => ['required', 'integer', 'min:0'],
+            'biaya_obat' => ['required', 'integer', 'min:0'],
+            'biaya_administrasi' => ['required', 'integer', 'min:0'],
+            'biaya_lainnya' => ['required', 'integer', 'min:0'],
+            'status' => ['required', 'in:Lunas,Belum Lunas'],
+        ]);
+
+        $validated['jumlah'] = array_sum([
+            $validated['biaya_dokter'],
+            $validated['biaya_obat'],
+            $validated['biaya_administrasi'],
+            $validated['biaya_lainnya'],
+        ]);
+
+        Biaya::create($validated);
         return redirect()->route('biaya.index');
     }
 
@@ -58,7 +74,22 @@ class BiayaController extends Controller
      */
     public function update(Request $request, Biaya $biaya)
     {
-        $biaya->update($request->all());
+        $validated = $request->validate([
+            'id_pasien' => ['required', 'exists:pasiens,id'],
+            'biaya_dokter' => ['required', 'integer', 'min:0'],
+            'biaya_obat' => ['required', 'integer', 'min:0'],
+            'biaya_administrasi' => ['required', 'integer', 'min:0'],
+            'biaya_lainnya' => ['required', 'integer', 'min:0'],
+        ]);
+
+        $validated['jumlah'] = array_sum([
+            $validated['biaya_dokter'],
+            $validated['biaya_obat'],
+            $validated['biaya_administrasi'],
+            $validated['biaya_lainnya'],
+        ]);
+
+        $biaya->update($validated);
         return redirect()->route('biaya.index');
     }
 

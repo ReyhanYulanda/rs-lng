@@ -18,19 +18,19 @@
         </select><br>
 
         <label for="biaya_dokter">Biaya Dokter:</label>
-        <input type="number" name="biaya_dokter" id="biaya_dokter" required><br>
+        <input type="number" name="biaya_dokter" id="biaya_dokter" class="biaya-komponen" min="0" step="1" value="{{ old('biaya_dokter', 0) }}" required><br>
 
         <label for="biaya_obat">Biaya Obat:</label>
-        <input type="number" name="biaya_obat" id="biaya_obat" required><br>
+        <input type="number" name="biaya_obat" id="biaya_obat" class="biaya-komponen" min="0" step="1" value="{{ old('biaya_obat', 0) }}" required><br>
 
         <label for="biaya_administrasi">Biaya Administrasi:</label>
-        <input type="number" name="biaya_administrasi" id="biaya_administrasi" required><br>
+        <input type="number" name="biaya_administrasi" id="biaya_administrasi" class="biaya-komponen" min="0" step="1" value="{{ old('biaya_administrasi', 0) }}" required><br>
 
         <label for="biaya_lainnya">Biaya Lainnya:</label>
-        <input type="number" name="biaya_lainnya" id="biaya_lainnya" required><br>
+        <input type="number" name="biaya_lainnya" id="biaya_lainnya" class="biaya-komponen" min="0" step="1" value="{{ old('biaya_lainnya', 0) }}" required><br>
 
         <label for="jumlah">Jumlah:</label>
-        <input type="number" name="jumlah" id="jumlah" required><br>
+        <input type="number" name="jumlah" id="jumlah" value="0" readonly><br>
 
         <label for="status">Status:</label>
         <select name="status" id="status" required>
@@ -41,5 +41,18 @@
         <button type="submit">Create</button>
     </form>
     <a href="{{ route('biaya.index') }}">Back to Biaya List</a>
+    
+    <script>
+        const biayaKomponen = document.querySelectorAll('.biaya-komponen');
+        const jumlah = document.getElementById('jumlah');
+
+        function hitungJumlah() {
+            jumlah.value = Array.from(biayaKomponen)
+                .reduce((total, input) => total + Number(input.value || 0), 0);
+        }
+
+        biayaKomponen.forEach((input) => input.addEventListener('input', hitungJumlah));
+        hitungJumlah();
+    </script>
 </body>
 </html>

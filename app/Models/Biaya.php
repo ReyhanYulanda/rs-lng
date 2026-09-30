@@ -13,6 +13,7 @@ class Biaya extends Model
         'biaya_administrasi',
         'biaya_lainnya',
         'jumlah',
+        'status',
     ];
 
     public function pasien()
