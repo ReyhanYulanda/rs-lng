@@ -10,10 +10,38 @@ class PoliController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $polis = Poli::all();
-        return view('poli.index', compact('polis'));
+        $search = trim($request->query('q', ''));
+
+        $polis = Poli::with(['pasien', 'dokter', 'jenisPoli'])
+            ->when($search !== '', function ($query) use ($search) {
+                $like = "%{$search}%";
+
+                $query->where(function ($query) use ($like) {
+                    $query->where('keluhan', 'like', $like)
+                        ->orWhere('jenis_poli', 'like', $like)
+                        ->orWhere('status', 'like', $like)
+                        ->orWhere('penyakit', 'like', $like)
+                        ->orWhere('catatan_medis', 'like', $like)
+                        ->orWhereHas('pasien', function ($query) use ($like) {
+                            $query->where('nama', 'like', $like)
+                                ->orWhere('no_rekam_medis', 'like', $like);
+                        })
+                        ->orWhereHas('dokter', function ($query) use ($like) {
+                            $query->where('nama', 'like', $like)
+                                ->orWhere('nip', 'like', $like);
+                        })
+                        ->orWhereHas('jenisPoli', function ($query) use ($like) {
+                            $query->where('nama', 'like', $like);
+                        });
+                });
+            })
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('poli.index', compact('polis', 'search'));
     }
 
     /**
@@ -34,10 +62,10 @@ class PoliController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'id_pasien' => 'required|integer',
-            'id_dokter' => 'required|integer',
+            'id_pasien' => 'required|exists:pasiens,id',
+            'id_dokter' => 'required|exists:dokters,id',
             'keluhan' => 'required|string|max:255',
-            'jenis_poli' => 'required|string|max:255',
+            'jenis_poli' => 'required|exists:jenis_polis,id',
             'status' => 'required|string|max:255',
             'penyakit' => 'nullable|string|max:255',
             'catatan_medis' => 'nullable|string|max:255',
@@ -74,13 +102,13 @@ class PoliController extends Controller
     public function update(Request $request, Poli $poli)
     {
         $validated = $request->validate([
-            'id_pasien' => 'required|integer',
-            'id_dokter' => 'required|integer',
+            'id_pasien' => 'required|exists:pasiens,id',
+            'id_dokter' => 'required|exists:dokters,id',
             'keluhan' => 'required|string|max:255',
-            'jenis_poli' => 'required|string|max:255',
+            'jenis_poli' => 'required|exists:jenis_polis,id',
             'status' => 'required|string|max:255',
-            'penyakit' => 'required|string|max:255',
-            'catatan_medis' => 'required|string|max:255',
+            'penyakit' => 'nullable|string|max:255',
+            'catatan_medis' => 'nullable|string|max:255',
         ]);
 
         $poli->update($validated);

@@ -10,10 +10,19 @@ class JenisPoliController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $jenisPolis = JenisPoli::all();
-        return view('jenis-poli.index', compact('jenisPolis'));
+        $search = trim($request->query('q', ''));
+
+        $jenisPolis = JenisPoli::query()
+            ->when($search !== '', function ($query) use ($search) {
+                $query->where('nama', 'like', "%{$search}%");
+            })
+            ->orderBy('nama')
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('jenis-poli.index', compact('jenisPolis', 'search'));
     }
 
     /**

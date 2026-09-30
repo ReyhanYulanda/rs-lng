@@ -25,4 +25,9 @@ class Poli extends Model
     {
         return $this->belongsTo(Dokter::class, 'id_dokter');
     }
+
+    public function jenisPoli()
+    {
+        return $this->belongsTo(JenisPoli::class, 'jenis_poli');
+    }
 }
