@@ -37,6 +37,7 @@
                     <thead>
                         <tr>
                             <th>No</th>
+                            <th>No. RM</th>
                             <th>Pasien</th>
                             <th>Dokter</th>
                             <th>Keluhan</th>
@@ -44,6 +45,7 @@
                             <th>Status</th>
                             <th>Penyakit</th>
                             <th>Catatan Medis</th>
+                            <th>Tanggal</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -51,6 +53,7 @@
                         @forelse($polis as $poli)
                             <tr>
                                 <td>{{ $polis->firstItem() + $loop->index }}</td>
+                                <td>{{ $poli->pasien->no_rekam_medis ?? 'ID ' . $poli->id_pasien }}</td>
                                 <td>{{ $poli->pasien->nama ?? 'ID ' . $poli->id_pasien }}</td>
                                 <td>{{ $poli->dokter->nama ?? 'ID ' . $poli->id_dokter }}</td>
                                 <td>{{ $poli->keluhan }}</td>
@@ -58,6 +61,7 @@
                                 <td>{{ $poli->status }}</td>
                                 <td>{{ $poli->penyakit ?: '-' }}</td>
                                 <td>{{ $poli->catatan_medis ?: '-' }}</td>
+                                <td>{{ $poli->updated_at?->format('H:i d-m-Y') ?? '-' }}</td>
                                 <td class="text-nowrap">
                                     <a href="{{ route('poli.edit', $poli->id) }}" class="btn btn-sm btn-warning">Edit</a>
                                     <form action="{{ route('poli.destroy', $poli->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Hapus data poli ini?')">
@@ -69,7 +73,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="9" class="text-center text-muted py-4">Tidak ada data poli.</td>
+                                <td colspan="11" class="text-center text-muted py-4">Tidak ada data poli.</td>
                             </tr>
                         @endforelse
                     </tbody>

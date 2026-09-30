@@ -36,7 +36,7 @@
                     <tr>
                         <th>No</th>
                         <th>Nama</th>
-                        <th>No Rekam Medis</th>
+                        <th>No. RM</th>
                         <th>Tanggal Lahir</th>
                         <th>Alamat</th>
                         <th>Aksi</th>

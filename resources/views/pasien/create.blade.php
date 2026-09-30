@@ -25,7 +25,7 @@
                         <form action="{{ route('pasien.store') }}" method="POST" class="mt-4">
                             @csrf
                             <div class="mb-4">
-                                <label for="no_rekam_medis" class="form-label">No Rekam Medis</label>
+                                <label for="no_rekam_medis" class="form-label">No. RM</label>
                                 <input type="text" id="no_rekam_medis" name="no_rekam_medis" class="form-control" required>
                             </div>
                             <div class="mb-4">
