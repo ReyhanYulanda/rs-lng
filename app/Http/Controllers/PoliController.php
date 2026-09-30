@@ -21,7 +21,11 @@ class PoliController extends Controller
      */
     public function create()
     {
-        return view('poli.create');
+        $pasiens = \App\Models\Pasien::all();
+        $dokters = \App\Models\Dokter::all();
+        $jenisPolis = \App\Models\JenisPoli::all();
+
+        return view('poli.create', compact('pasiens', 'dokters', 'jenisPolis'));
     }
 
     /**
@@ -30,7 +34,13 @@ class PoliController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nama' => 'required|string|max:255',
+            'id_pasien' => 'required|integer',
+            'id_dokter' => 'required|integer',
+            'keluhan' => 'required|string|max:255',
+            'jenis_poli' => 'required|string|max:255',
+            'status' => 'required|string|max:255',
+            'penyakit' => 'nullable|string|max:255',
+            'catatan_medis' => 'nullable|string|max:255',
         ]);
 
         Poli::create($validated);
@@ -51,7 +61,11 @@ class PoliController extends Controller
      */
     public function edit(Poli $poli)
     {
-        return view('poli.edit', compact('poli'));
+        $pasiens = \App\Models\Pasien::all();
+        $dokters = \App\Models\Dokter::all();
+        $jenisPolis = \App\Models\JenisPoli::all();
+
+        return view('poli.edit', compact('poli', 'pasiens', 'dokters', 'jenisPolis'));
     }
 
     /**
@@ -60,7 +74,13 @@ class PoliController extends Controller
     public function update(Request $request, Poli $poli)
     {
         $validated = $request->validate([
-            'nama' => 'required|string|max:255',
+            'id_pasien' => 'required|integer',
+            'id_dokter' => 'required|integer',
+            'keluhan' => 'required|string|max:255',
+            'jenis_poli' => 'required|string|max:255',
+            'status' => 'required|string|max:255',
+            'penyakit' => 'required|string|max:255',
+            'catatan_medis' => 'required|string|max:255',
         ]);
 
         $poli->update($validated);

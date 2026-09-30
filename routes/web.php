@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PasienController;
 use App\Http\Controllers\JenisPoliController;
 use App\Http\Controllers\DokterController;
+use App\Http\Controllers\PoliController;    
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -23,5 +24,6 @@ Route::middleware('auth')->group(function () {
 Route::resource('pasien', PasienController::class);
 Route::resource('jenis-poli', JenisPoliController::class);
 Route::resource('dokter', DokterController::class);
+Route::resource('poli', PoliController::class);
 
 require __DIR__.'/auth.php';

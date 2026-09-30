@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('keluhan');
             $table->string('jenis_poli');
             $table->string('status');
-            $table->string('penyakit');
-            $table->string('catatan_medis');
+            $table->string('penyakit')->nullable();
+            $table->string('catatan_medis')->nullable();
             $table->timestamps();
         });
     }
